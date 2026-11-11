@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- FIX FOR SHEIN IMAGE CORS / REFERRER BLOCKS -->
   <meta name="referrer" content="no-referrer" />
   <title>RecommendedShein</title>
 
@@ -19,55 +18,34 @@
       --text-muted: #666666;
       --accent-red: #fa6338;
       --border-color: #e5e5e5;
-      --recent-badge: #2563eb;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* HEADER */
+    /* HEADER & TOP NAV BAR */
     header {
       background-color: #ffffff;
       border-bottom: 1px solid var(--border-color);
-      padding: 16px 32px;
+      padding: 12px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 100;
-    }
-
-    .brand-title {
-      font-size: 22px;
-      font-weight: 800;
-      color: #000000;
-      letter-spacing: -0.5px;
-      cursor: pointer;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
+      flex-wrap: wrap;
       gap: 12px;
     }
 
+    .brand-title { font-size: 20px; font-weight: 800; color: #000; cursor: pointer; letter-spacing: -0.5px; }
+    
+    .nav-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
     .btn {
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 4px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       border: 1px solid transparent;
@@ -86,399 +64,131 @@
     .btn-danger { background-color: #dc2626; color: #ffffff; }
     .btn-danger:hover { background-color: #b91c1c; }
 
-    .btn-sm { padding: 4px 8px; font-size: 12px; }
+    .btn-sm { padding: 4px 10px; font-size: 12px; }
 
-    .user-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .admin-tag {
-      background-color: #000000;
-      color: #ffffff;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      padding: 2px 6px;
-      border-radius: 3px;
+    .user-avatar-small {
+      width: 24px; height: 24px; border-radius: 50%; object-fit: cover; background: #ddd;
     }
 
     /* CONTAINER & TOP BARS */
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 24px;
-      width: 100%;
-      flex: 1;
-    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 24px; width: 100%; flex: 1; }
 
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
 
     .live-users-bar {
       background-color: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: 6px;
-      padding: 12px 16px;
-      margin-bottom: 24px;
+      padding: 10px 16px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       gap: 12px;
       font-size: 13px;
     }
 
-    .live-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #22c55e;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #22c55e;
-    }
-
+    .live-dot { width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; }
     .users-list-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-    .user-chip { background: #f1f5f9; padding: 3px 8px; border-radius: 12px; font-size: 12px; color: #475569; }
+    .user-chip { background: #f1f5f9; padding: 3px 8px; border-radius: 12px; font-size: 12px; color: #475569; display: flex; align-items: center; gap: 4px; }
 
-    /* SECTION HEADINGS */
-    .section-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin: 24px 0 16px 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    /* SECTIONS & GRIDS */
+    .section-title { font-size: 18px; font-weight: 700; margin: 24px 0 16px 0; display: flex; align-items: center; gap: 8px; }
+    .recent-badge { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; }
 
-    .recent-badge {
-      background-color: #eff6ff;
-      color: #1d4ed8;
-      border: 1px solid #bfdbfe;
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-weight: 600;
-    }
-
-    /* GRID & CARDS */
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
-    }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
 
     .product-card {
       background: var(--card-bg);
       border-radius: 4px;
       overflow: hidden;
       cursor: pointer;
-      position: relative;
       border: 1px solid var(--border-color);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       display: flex;
       flex-direction: column;
     }
+    .product-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
-    .product-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
+    .img-wrapper { width: 100%; aspect-ratio: 3 / 4; background-color: #eee; position: relative; }
+    .img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
-    .img-wrapper {
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      background-color: #eee;
-      position: relative;
-    }
+    .card-info { padding: 10px 10px 14px 10px; display: flex; flex-direction: column; flex: 1; }
+    .card-title { font-size: 13px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+    .added-by-text { font-size: 11px; color: #888; margin-bottom: 6px; }
 
-    .img-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .card-price-row { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .card-price { font-size: 15px; font-weight: 700; color: var(--accent-red); }
 
-    .card-info {
-      padding: 10px 10px 14px 10px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .card-title {
-      font-size: 13px;
-      color: #333;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 4px;
-    }
-
-    .added-by-text {
-      font-size: 11px;
-      color: #888;
-      margin-bottom: 6px;
-    }
-
-    .card-price-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: auto;
-    }
-
-    .card-price {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent-red);
-    }
-
-    .card-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .action-icon-btn {
-      background: none;
-      border: none;
-      font-size: 15px;
-      color: #888;
-      cursor: pointer;
-      transition: color 0.2s ease;
-    }
-
+    .card-actions { display: flex; align-items: center; gap: 8px; }
+    .action-icon-btn { background: none; border: none; font-size: 15px; color: #888; cursor: pointer; transition: color 0.2s ease; }
     .action-icon-btn:hover { color: #000; }
     .wishlist-btn.active { color: #ef4444; }
 
-    /* VISITED BANNER AT BOTTOM OF CARD */
-    .visited-banner {
-      background: #f8fafc;
-      border-top: 1px dashed var(--border-color);
-      padding: 6px 10px;
-      font-size: 11px;
-      color: #64748b;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+    .visited-banner { background: #f8fafc; border-top: 1px dashed var(--border-color); padding: 6px 10px; font-size: 11px; color: #64748b; display: flex; align-items: center; gap: 4px; }
+
+    /* VIEWS */
+    .view-panel { display: none; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; max-width: 1000px; margin: 0 auto; }
+
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); cursor: pointer; font-size: 14px; margin-bottom: 20px; font-weight: 500; }
 
     /* DETAIL VIEW */
-    .detail-view, .wishlist-view {
-      display: none;
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 24px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 14px;
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
-
-    .detail-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-    }
-
-    @media (max-width: 768px) {
-      .detail-layout { grid-template-columns: 1fr; }
-    }
-
-    .detail-main-img {
-      width: 100%;
-      border-radius: 4px;
-      aspect-ratio: 3/4;
-      object-fit: cover;
-      background: #eee;
-    }
-
-    .detail-info {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
+    .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    @media (max-width: 768px) { .detail-layout { grid-template-columns: 1fr; } }
+    .detail-main-img { width: 100%; border-radius: 4px; aspect-ratio: 3/4; object-fit: cover; background: #eee; }
+    .detail-info { display: flex; flex-direction: column; gap: 16px; }
     .detail-title { font-size: 20px; font-weight: 700; line-height: 1.4; }
     .detail-price { font-size: 24px; font-weight: 700; color: var(--accent-red); }
 
-    .code-box {
-      background: #f8fafc;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
+    .code-box { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
     .code-text { font-family: monospace; font-size: 15px; font-weight: 700; }
 
-    /* NOTES SECTION IN DETAIL VIEW */
-    .notes-section {
-      margin-top: 32px;
-      border-top: 1px solid var(--border-color);
-      padding-top: 24px;
-    }
+    /* CHAT STYLING */
+    .chat-box { height: 400px; border: 1px solid var(--border-color); border-radius: 6px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; background: #fdfdfd; }
+    .chat-msg { display: flex; gap: 10px; align-items: flex-start; max-width: 80%; }
+    .chat-msg-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; background: #ddd; }
+    .chat-msg-content { background: #f1f5f9; padding: 8px 12px; border-radius: 8px; font-size: 13px; }
+    .chat-msg-author { font-weight: 700; font-size: 11px; color: #475569; margin-bottom: 2px; }
 
-    .notes-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin: 16px 0;
-      max-height: 250px;
-      overflow-y: auto;
-    }
-
-    .note-item {
-      background: #f8fafc;
-      border-radius: 6px;
-      padding: 10px 14px;
-      font-size: 13px;
-    }
-
-    .note-header {
-      display: flex;
-      justify-content: space-between;
-      color: #64748b;
-      font-size: 11px;
-      margin-bottom: 4px;
-    }
+    /* PROFILE STYLING */
+    .profile-avatar-preview { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; background: #eee; margin-bottom: 12px; border: 2px solid var(--border-color); }
 
     /* MODALS */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-box {
-      background: #ffffff;
-      padding: 28px;
-      border-radius: 8px;
-      width: 100%;
-      max-width: 480px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
+    .modal-box { background: #ffffff; padding: 28px; border-radius: 8px; width: 100%; max-width: 480px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .close-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: #888; }
 
     .form-group { margin-bottom: 14px; }
     .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-muted); }
-    .form-group input, .form-group textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      font-size: 14px;
-    }
+    .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px; }
 
-    /* TAB SELECTOR FOR IMAGE SOURCE */
-    .tab-selector {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
+    .tab-selector { display: flex; gap: 8px; margin-bottom: 12px; }
+    .tab-btn { flex: 1; padding: 6px; font-size: 12px; border: 1px solid var(--border-color); background: #f8fafc; cursor: pointer; border-radius: 4px; text-align: center; font-weight: 600; }
+    .tab-btn.active { background: #000; color: #fff; border-color: #000; }
 
-    .tab-btn {
-      flex: 1;
-      padding: 6px;
-      font-size: 12px;
-      border: 1px solid var(--border-color);
-      background: #f8fafc;
-      cursor: pointer;
-      border-radius: 4px;
-      text-align: center;
-      font-weight: 600;
-    }
-
-    .tab-btn.active {
-      background: #000;
-      color: #fff;
-      border-color: #000;
-    }
-
-    .google-btn {
-      width: 100%;
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      color: #333;
-      padding: 10px;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    /* WISHLIST SUMMARY CARD */
-    .wishlist-summary {
-      background: #f8fafc;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 16px;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .wishlist-total {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--accent-red);
-    }
+    .google-btn { width: 100%; background: #ffffff; border: 1px solid var(--border-color); color: #333; padding: 10px; border-radius: 4px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- HEADER NAV BAR -->
   <header>
     <div class="brand-title" id="brandBtn">RecommendedShein</div>
-    <div class="header-actions">
-      <button class="btn btn-outline" id="openWishlistBtn"><i class="fa-solid fa-heart"></i> Group Wishlist</button>
+    <div class="nav-bar">
+      <button class="btn btn-outline" id="navWishlistBtn"><i class="fa-solid fa-heart"></i> Wishlist</button>
+      <button class="btn btn-outline" id="navChatBtn"><i class="fa-solid fa-comments"></i> Chat</button>
+      <button class="btn btn-outline" id="navSavedChatsBtn" style="display: none;"><i class="fa-solid fa-box-archive"></i> Saved Chats</button>
+      <button class="btn btn-outline" id="navTrashBtn" style="display: none;"><i class="fa-solid fa-trash-can"></i> Trash</button>
+      <button class="btn btn-outline" id="navProfileBtn" style="display: none;"><i class="fa-regular fa-circle-user"></i> Profile</button>
       <div id="headerAuthArea">
-        <button class="btn btn-outline" id="openAuthBtn">Sign In / Sign Up</button>
+        <button class="btn btn-primary" id="openAuthBtn">Sign In</button>
       </div>
     </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
   <div class="container">
     
-    <!-- LIVE USERS SECTION -->
+    <!-- ONLINE USERS -->
     <div class="live-users-bar">
       <div class="live-dot"></div>
       <strong>Online Users:</strong>
@@ -487,14 +197,13 @@
       </div>
     </div>
 
-    <!-- MAIN DASHBOARD VIEW -->
+    <!-- MAIN DASHBOARD -->
     <div id="mainDashboardView">
       <div class="top-bar">
         <h2>Curated Recommendations</h2>
         <button class="btn btn-primary" id="openAddModalBtn" style="display: none;">+ Add Shein Item</button>
       </div>
 
-      <!-- RECENTLY ADDED (LAST 24 HOURS) -->
       <div id="recentSection" style="display: none;">
         <div class="section-title">
           <span>Recently Added Items</span>
@@ -503,28 +212,102 @@
         <div class="product-grid" id="recentGrid"></div>
       </div>
 
-      <!-- ALL PRODUCTS -->
       <div class="section-title" id="allProductsHeading" style="display: none;">All Recommendations</div>
       <div class="product-grid" id="productGrid"></div>
     </div>
 
-    <!-- WISHLIST PAGE VIEW -->
-    <div class="wishlist-view" id="wishlistView">
-      <div class="back-link" id="wishlistBackBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
-      <h2>Group Wishlist</h2>
-      <p style="font-size: 13px; color: #666; margin-bottom: 16px;">This wishlist is shared between all users. Anyone can view or remove items!</p>
-      
-      <div class="wishlist-summary">
+    <!-- WISHLIST VIEW -->
+    <div class="view-panel" id="wishlistView">
+      <div class="back-link backToHomeBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
+      <h2>Shared Wishlist</h2>
+      <div style="background: #f8fafc; border: 1px solid var(--border-color); padding: 16px; border-radius: 6px; margin: 16px 0; display: flex; justify-content: space-between; align-items: center;">
         <div>Total Estimated Price for Wishlisted Items:</div>
-        <div class="wishlist-total" id="wishlistTotalPrice">R0.00</div>
+        <div style="font-size: 20px; font-weight: 800; color: var(--accent-red);" id="wishlistTotalPrice">R0.00</div>
       </div>
-
       <div class="product-grid" id="wishlistGrid"></div>
     </div>
 
+    <!-- CHAT VIEW -->
+    <div class="view-panel" id="chatView">
+      <div class="back-link backToHomeBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2>Community Chat</h2>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-outline btn-sm" id="adminSaveChatBtn" style="display: none;"><i class="fa-solid fa-floppy-disk"></i> Save Chat (Admin)</button>
+          <button class="btn btn-danger btn-sm" id="adminDeleteChatBtn" style="display: none;"><i class="fa-solid fa-trash"></i> Delete Chat (Admin)</button>
+        </div>
+      </div>
+
+      <div class="chat-box" id="chatBox"></div>
+      <div style="display: flex; gap: 8px; margin-top: 12px;">
+        <input type="text" id="chatInput" placeholder="Type a message..." style="flex:1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px;" />
+        <button class="btn btn-primary" id="sendChatBtn">Send</button>
+      </div>
+    </div>
+
+    <!-- SAVED CHATS VIEW (ADMIN ONLY) -->
+    <div class="view-panel" id="savedChatsView">
+      <div class="back-link backToHomeBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
+      <h2>Saved Chats (Admin Archive)</h2>
+      <div id="savedChatsList" style="margin-top: 16px; display: flex; flex-direction: column; gap: 16px;"></div>
+    </div>
+
+    <!-- TRASH VIEW (ADMIN ONLY) -->
+    <div class="view-panel" id="trashView">
+      <div class="back-link backToHomeBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
+      <h2>Trash & Recovery</h2>
+      <p style="font-size: 12px; color: #888; margin-bottom: 16px;">Items in trash are permanently deleted after 30 days.</p>
+
+      <h3>Deleted Products</h3>
+      <div class="product-grid" id="trashProductsGrid" style="margin: 12px 0 24px 0;"></div>
+
+      <h3>Deleted Chats</h3>
+      <div id="trashChatsGrid" style="margin-top: 12px; display: flex; flex-direction: column; gap: 12px;"></div>
+    </div>
+
+    <!-- PROFILE VIEW -->
+    <div class="view-panel" id="profileView">
+      <div class="back-link backToHomeBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
+      <h2>My Profile</h2>
+      <div style="margin-top: 20px; max-width: 400px;">
+        <div style="text-align: center;">
+          <img id="profilePfpPreview" class="profile-avatar-preview" src="https://via.placeholder.com/80" alt="Profile" />
+          <div class="form-group">
+            <label>Upload Profile Photo</label>
+            <input type="file" id="profilePfpInput" accept="image/*" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Display Name</label>
+          <input type="text" id="profileNameInput" />
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="profileEmailInput" disabled style="background: #eee;" />
+        </div>
+
+        <button class="btn btn-primary" id="saveProfileBtn" style="width: 100%;">Save Profile Changes</button>
+
+        <hr style="margin: 24px 0; border: none; border-top: 1px solid var(--border-color);" />
+
+        <h3>Change Password</h3>
+        <div class="form-group" style="margin-top: 12px;">
+          <label>New Password</label>
+          <input type="password" id="newPasswordInput" placeholder="••••••••" />
+        </div>
+        <button class="btn btn-outline" id="changePasswordBtn" style="width: 100%;">Update Password</button>
+
+        <hr style="margin: 24px 0; border: none; border-top: 1px solid var(--border-color);" />
+
+        <button class="btn btn-danger" id="profileLogoutBtn" style="width: 100%;">Log Out</button>
+      </div>
+    </div>
+
     <!-- SINGLE ITEM DETAIL VIEW -->
-    <div class="detail-view" id="detailView">
-      <div class="back-link" id="backToHomeBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
+    <div class="view-panel" id="detailView">
+      <div class="back-link backToHomeBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
       <div class="detail-layout">
         <div>
           <img id="detailImg" class="detail-main-img" src="" alt="Product" />
@@ -553,23 +336,18 @@
             </a>
           </div>
 
-          <!-- USER EDIT & ADMIN CONTROLS IN DETAIL -->
-          <div style="display: flex; gap: 8px; margin-top: 8px;">
+          <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
             <button class="btn btn-outline btn-sm" id="detailEditBtn" style="display: none;"><i class="fa-solid fa-pen"></i> Edit Item</button>
-            <button class="btn btn-danger btn-sm" id="detailDeleteBtn" style="display: none;"><i class="fa-solid fa-trash"></i> Delete (Admin)</button>
-            <button class="btn btn-outline btn-sm" id="detailClearHistoryBtn" style="display: none;"><i class="fa-solid fa-clock-rotate-left"></i> Clear Visitors (Admin)</button>
+            <button class="btn btn-danger btn-sm" id="detailDeleteBtn" style="display: none;"><i class="fa-solid fa-trash"></i> Move to Trash (Admin)</button>
           </div>
         </div>
       </div>
 
-      <!-- NOTES SECTION -->
-      <div class="notes-section">
-        <h3>User Notes & Comments</h3>
-        <div class="notes-list" id="notesList">
-          <p style="color: #999; font-size: 13px;">No notes yet. Add one below!</p>
-        </div>
-        <div id="addNoteForm" style="display: flex; gap: 8px;">
-          <input type="text" id="noteInput" placeholder="Add a note about this item..." style="flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px;" />
+      <div style="margin-top: 32px; border-top: 1px solid var(--border-color); padding-top: 24px;">
+        <h3>Notes & Comments</h3>
+        <div id="notesList" style="display: flex; flex-direction: column; gap: 10px; margin: 16px 0; max-height: 200px; overflow-y: auto;"></div>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="noteInput" placeholder="Add a note..." style="flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px;" />
           <button class="btn btn-primary" id="saveNoteBtn">Post Note</button>
         </div>
       </div>
@@ -581,7 +359,7 @@
   <div class="modal-overlay" id="authModal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3 id="authTitle">Sign In / Sign Up</h3>
+        <h3>Sign In / Sign Up</h3>
         <button class="close-btn" id="closeAuthModal">×</button>
       </div>
       <div class="form-group">
@@ -631,7 +409,6 @@
         <input type="text" id="addItemSku" placeholder="e.g. sz2411168808462318" />
       </div>
 
-      <!-- DUAL TAB FOR IMAGE INPUT: LINK OR FILE UPLOAD -->
       <div class="form-group">
         <label>Product Image</label>
         <div class="tab-selector">
@@ -651,15 +428,15 @@
     </div>
   </div>
 
-  <!-- FIREBASE SCRIPT -->
+  <!-- FIREBASE LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
       getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, 
-      signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile 
+      signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, updatePassword 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { 
-      getFirestore, collection, addDoc, deleteDoc, onSnapshot, doc, setDoc, updateDoc, arrayUnion, arrayRemove 
+      getFirestore, collection, addDoc, deleteDoc, onSnapshot, doc, setDoc, updateDoc, arrayUnion, arrayRemove, getDocs 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -680,8 +457,10 @@
 
     let currentUser = null;
     let productsList = [];
+    let trashProducts = [];
     let activeProduct = null;
     let uploadedImageBase64 = "";
+    let profilePfpBase64 = "";
 
     // AUTH OBSERVER
     onAuthStateChanged(auth, async (user) => {
@@ -689,13 +468,16 @@
       updateHeaderUI();
       if (user) {
         const userName = user.displayName || user.email.split('@')[0];
+        const pfp = user.photoURL || 'https://via.placeholder.com/40';
         await setDoc(doc(db, "activeUsers", user.uid), {
           name: userName,
           email: user.email,
+          pfp: pfp,
           lastSeen: new Date().toISOString()
         });
       }
       renderGrids();
+      autoPurgeTrash();
     });
 
     function isUserAdmin() {
@@ -707,24 +489,47 @@
       return currentUser.displayName || currentUser.email.split('@')[0];
     }
 
+    function getUserPfp() {
+      return (currentUser && currentUser.photoURL) ? currentUser.photoURL : 'https://via.placeholder.com/40';
+    }
+
     function updateHeaderUI() {
       const authArea = document.getElementById("headerAuthArea");
       const addModalBtn = document.getElementById("openAddModalBtn");
+      const navSaved = document.getElementById("navSavedChatsBtn");
+      const navTrash = document.getElementById("navTrashBtn");
+      const navProfile = document.getElementById("navProfileBtn");
+      const adminSaveChat = document.getElementById("adminSaveChatBtn");
+      const adminDeleteChat = document.getElementById("adminDeleteChatBtn");
 
       if (currentUser) {
         authArea.innerHTML = `
-          <div class="user-badge">
-            <i class="fa-regular fa-user"></i>
+          <div style="display:flex; align-items:center; gap:6px; font-size:13px; font-weight:600;">
+            <img src="${getUserPfp()}" class="user-avatar-small" />
             <span>${getUserName()}</span>
             ${isUserAdmin() ? '<span class="admin-tag">Admin</span>' : ''}
           </div>
-          <button class="btn btn-outline btn-sm" id="logoutBtn">Logout</button>
         `;
         addModalBtn.style.display = "inline-flex";
-        document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
+        navProfile.style.display = "inline-flex";
+
+        if (isUserAdmin()) {
+          navSaved.style.display = "inline-flex";
+          navTrash.style.display = "inline-flex";
+          adminSaveChat.style.display = "inline-flex";
+          adminDeleteChat.style.display = "inline-flex";
+        } else {
+          navSaved.style.display = "none";
+          navTrash.style.display = "none";
+          adminSaveChat.style.display = "none";
+          adminDeleteChat.style.display = "none";
+        }
       } else {
-        authArea.innerHTML = `<button class="btn btn-outline" id="openAuthBtn">Sign In / Sign Up</button>`;
+        authArea.innerHTML = `<button class="btn btn-primary" id="openAuthBtn">Sign In</button>`;
         addModalBtn.style.display = "none";
+        navProfile.style.display = "none";
+        navSaved.style.display = "none";
+        navTrash.style.display = "none";
         document.getElementById("openAuthBtn").addEventListener("click", () => showModal("authModal"));
       }
     }
@@ -733,34 +538,82 @@
     onSnapshot(collection(db, "activeUsers"), (snapshot) => {
       const usersListEl = document.getElementById("usersList");
       usersListEl.innerHTML = "";
-      if (snapshot.empty) {
-        usersListEl.innerHTML = `<span class="user-chip">No online users</span>`;
-        return;
-      }
       snapshot.forEach(docSnap => {
         const data = docSnap.data();
         const chip = document.createElement("span");
         chip.className = "user-chip";
         const isAdminUser = data.email && data.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-        chip.innerHTML = `${data.name || data.email} ${isAdminUser ? '<b>(Admin)</b>' : ''}`;
+        chip.innerHTML = `
+          <img src="${data.pfp || 'https://via.placeholder.com/20'}" style="width:16px;height:16px;border-radius:50%;" />
+          ${data.name || data.email} ${isAdminUser ? '<b>(Admin)</b>' : ''}
+        `;
         usersListEl.appendChild(chip);
       });
     });
 
-    // REALTIME PRODUCTS SNAPSHOT
+    // REALTIME PRODUCTS
     onSnapshot(collection(db, "products"), (snapshot) => {
       productsList = [];
+      trashProducts = [];
       snapshot.forEach(docSnap => {
-        productsList.push({ id: docSnap.id, ...docSnap.data() });
+        const data = { id: docSnap.id, ...docSnap.data() };
+        if (data.inTrash) {
+          trashProducts.push(data);
+        } else {
+          productsList.push(data);
+        }
       });
       renderGrids();
+      renderTrash();
       if (activeProduct) {
         const updated = productsList.find(p => p.id === activeProduct.id);
         if (updated) openDetailView(updated);
       }
     });
 
-    // RENDER HOMEPAGE & RECENT GRIDS
+    // REALTIME CHAT
+    onSnapshot(collection(db, "chats"), (snapshot) => {
+      const chatBox = document.getElementById("chatBox");
+      chatBox.innerHTML = "";
+      let msgs = [];
+      snapshot.forEach(docSnap => {
+        const d = docSnap.data();
+        if (!d.inTrash) msgs.push({ id: docSnap.id, ...d });
+      });
+      msgs.sort((a, b) => a.timestamp - b.timestamp);
+
+      msgs.forEach(m => {
+        const div = document.createElement("div");
+        div.className = "chat-msg";
+        div.innerHTML = `
+          <img src="${m.pfp || 'https://via.placeholder.com/32'}" class="chat-msg-avatar" />
+          <div class="chat-msg-content">
+            <div class="chat-msg-author">${m.author}</div>
+            <div>${m.text}</div>
+          </div>
+        `;
+        chatBox.appendChild(div);
+      });
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+
+    // REALTIME SAVED CHATS
+    onSnapshot(collection(db, "savedChats"), (snapshot) => {
+      const container = document.getElementById("savedChatsList");
+      container.innerHTML = "";
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const div = document.createElement("div");
+        div.style.cssText = "background:#f8fafc; border:1px solid var(--border-color); padding:16px; border-radius:6px;";
+        div.innerHTML = `
+          <div style="font-weight:700; font-size:14px; margin-bottom:8px;">Saved Session: ${data.savedAt}</div>
+          <div style="font-size:13px; color:#555;">${data.messages ? data.messages.length : 0} Messages Archived</div>
+        `;
+        container.appendChild(div);
+      });
+    });
+
+    // RENDER PRODUCT GRIDS
     function renderGrids() {
       const now = Date.now();
       const twentyFourHours = 24 * 60 * 60 * 1000;
@@ -789,18 +642,14 @@
     function populateGrid(gridElement, items) {
       gridElement.innerHTML = "";
       if (items.length === 0) {
-        gridElement.innerHTML = `<p style="grid-column: 1/-1; color: var(--text-muted); font-size: 13px;">No items in this section.</p>`;
+        gridElement.innerHTML = `<p style="grid-column: 1/-1; color: var(--text-muted); font-size: 13px;">No items found.</p>`;
         return;
       }
 
       items.forEach(item => {
-        const isWishlisted = item.wishlisted;
         const card = document.createElement("div");
         card.className = "product-card";
-
-        const visitorsText = (item.visitedBy && item.visitedBy.length > 0)
-          ? item.visitedBy.join(", ") + " Visited"
-          : "Not visited yet";
+        const visitorsText = (item.visitedBy && item.visitedBy.length > 0) ? item.visitedBy.join(", ") + " Visited" : "Not visited yet";
 
         card.innerHTML = `
           <div class="img-wrapper">
@@ -813,16 +662,14 @@
               <span class="card-price">${item.price}</span>
               <div class="card-actions">
                 ${currentUser ? `<button class="action-icon-btn edit-card-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>` : ''}
-                ${isUserAdmin() ? `<button class="action-icon-btn delete-card-btn" title="Delete"><i class="fa-solid fa-trash"></i></button>` : ''}
-                <button class="action-icon-btn wishlist-btn ${isWishlisted ? 'active' : ''}" title="Wishlist">
-                  <i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                ${isUserAdmin() ? `<button class="action-icon-btn delete-card-btn" title="Move to Trash"><i class="fa-solid fa-trash"></i></button>` : ''}
+                <button class="action-icon-btn wishlist-btn ${item.wishlisted ? 'active' : ''}" title="Wishlist">
+                  <i class="${item.wishlisted ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
                 </button>
               </div>
             </div>
           </div>
-          <div class="visited-banner">
-            <i class="fa-regular fa-eye"></i> ${visitorsText}
-          </div>
+          <div class="visited-banner"><i class="fa-regular fa-eye"></i> ${visitorsText}</div>
         `;
 
         card.addEventListener("click", (e) => {
@@ -845,8 +692,8 @@
         if (isUserAdmin()) {
           card.querySelector(".delete-card-btn")?.addEventListener("click", async (e) => {
             e.stopPropagation();
-            if (confirm("Delete this product?")) {
-              await deleteDoc(doc(db, "products", item.id));
+            if (confirm("Move item to Trash?")) {
+              await updateDoc(doc(db, "products", item.id), { inTrash: true, deletedAt: Date.now() });
             }
           });
         }
@@ -855,26 +702,19 @@
       });
     }
 
-    // TRACK VISITOR LOGIC
     async function trackVisitAndOpenDetail(item) {
       if (currentUser) {
-        const userName = getUserName();
-        const currentVisitors = item.visitedBy || [];
-        if (!currentVisitors.includes(userName)) {
-          await updateDoc(doc(db, "products", item.id), {
-            visitedBy: arrayUnion(userName)
-          });
+        const name = getUserName();
+        if (!(item.visitedBy || []).includes(name)) {
+          await updateDoc(doc(db, "products", item.id), { visitedBy: arrayUnion(name) });
         }
       }
       openDetailView(item);
     }
 
-    // DETAIL VIEW LOGIC
     function openDetailView(item) {
       activeProduct = item;
-      document.getElementById("mainDashboardView").style.display = "none";
-      document.getElementById("wishlistView").style.display = "none";
-      document.getElementById("detailView").style.display = "block";
+      switchView("detailView");
 
       document.getElementById("detailImg").src = item.imgUrl;
       document.getElementById("detailTitle").innerText = item.title;
@@ -882,11 +722,8 @@
       document.getElementById("detailPrice").innerText = item.price;
       document.getElementById("detailCode").innerText = item.sku || "N/A";
       document.getElementById("detailExternalLink").href = item.url || "#";
+      document.getElementById("detailWishlistIcon").className = item.wishlisted ? "fa-solid fa-heart" : "fa-regular fa-heart";
 
-      const wishlistIcon = document.getElementById("detailWishlistIcon");
-      wishlistIcon.className = item.wishlisted ? "fa-solid fa-heart" : "fa-regular fa-heart";
-
-      // Edit Button for Logged-In Users
       const detailEditBtn = document.getElementById("detailEditBtn");
       if (currentUser) {
         detailEditBtn.style.display = "inline-flex";
@@ -895,62 +732,40 @@
         detailEditBtn.style.display = "none";
       }
 
-      // Admin Controls
       const detailDeleteBtn = document.getElementById("detailDeleteBtn");
-      const detailClearHistoryBtn = document.getElementById("detailClearHistoryBtn");
       if (isUserAdmin()) {
         detailDeleteBtn.style.display = "inline-flex";
-        detailClearHistoryBtn.style.display = "inline-flex";
-
         detailDeleteBtn.onclick = async () => {
-          if (confirm("Delete this item?")) {
-            await deleteDoc(doc(db, "products", item.id));
-            document.getElementById("backToHomeBtn").click();
-          }
-        };
-
-        detailClearHistoryBtn.onclick = async () => {
-          if (confirm("Clear visitor history for this item?")) {
-            await updateDoc(doc(db, "products", item.id), { visitedBy: [] });
+          if (confirm("Move item to Trash?")) {
+            await updateDoc(doc(db, "products", item.id), { inTrash: true, deletedAt: Date.now() });
+            showView("mainDashboardView");
           }
         };
       } else {
         detailDeleteBtn.style.display = "none";
-        detailClearHistoryBtn.style.display = "none";
       }
 
-      // Copy Button
       document.getElementById("copyCodeBtn").onclick = () => {
         navigator.clipboard.writeText(item.sku || "");
         document.getElementById("copyBtnText").innerText = "Copied!";
         setTimeout(() => { document.getElementById("copyBtnText").innerText = "Copy Code"; }, 2000);
       };
 
-      // Wishlist Button
       document.getElementById("detailWishlistBtn").onclick = () => toggleWishlist(item);
-
-      // Render Notes
       renderNotes(item.notes || []);
     }
 
-    // NOTES SYSTEM
     function renderNotes(notes) {
       const notesList = document.getElementById("notesList");
       notesList.innerHTML = "";
       if (notes.length === 0) {
-        notesList.innerHTML = `<p style="color: #999; font-size: 13px;">No notes yet. Be the first to leave a comment!</p>`;
+        notesList.innerHTML = `<p style="color:#999; font-size:13px;">No notes yet.</p>`;
         return;
       }
-      notes.forEach(note => {
+      notes.forEach(n => {
         const div = document.createElement("div");
-        div.className = "note-item";
-        div.innerHTML = `
-          <div class="note-header">
-            <strong>${note.author}</strong>
-            <span>${note.date}</span>
-          </div>
-          <div>${note.text}</div>
-        `;
+        div.style.cssText = "background:#f8fafc; padding:8px 12px; border-radius:6px; font-size:13px;";
+        div.innerHTML = `<div style="font-size:11px; color:#888;"><b>${n.author}</b> - ${n.date}</div><div>${n.text}</div>`;
         notesList.appendChild(div);
       });
     }
@@ -963,17 +778,14 @@
       const newNote = {
         author: getUserName(),
         text: text,
-        date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
       };
 
-      await updateDoc(doc(db, "products", activeProduct.id), {
-        notes: arrayUnion(newNote)
-      });
-
+      await updateDoc(doc(db, "products", activeProduct.id), { notes: arrayUnion(newNote) });
       document.getElementById("noteInput").value = "";
     });
 
-    // WISHLIST VIEW & CALCULATION
+    // WISHLIST VIEW
     function renderWishlistGrid() {
       const wishlistGrid = document.getElementById("wishlistGrid");
       const wishlistedItems = productsList.filter(p => p.wishlisted);
@@ -981,29 +793,160 @@
 
       let totalNum = 0;
       wishlistedItems.forEach(item => {
-        // Extract numeric price for total calculation
         const numeric = parseFloat(item.price.replace(/[^0-9.]/g, '')) || 0;
         totalNum += numeric;
       });
 
       document.getElementById("wishlistTotalPrice").innerText = "R" + totalNum.toFixed(2);
-
-      if (wishlistedItems.length === 0) {
-        wishlistGrid.innerHTML = `<p style="grid-column: 1/-1; color: var(--text-muted);">The shared wishlist is empty.</p>`;
-        return;
-      }
-
       populateGrid(wishlistGrid, wishlistedItems);
     }
 
     async function toggleWishlist(item) {
       if (!currentUser) { showModal("authModal"); return; }
-      await updateDoc(doc(db, "products", item.id), {
-        wishlisted: !item.wishlisted
+      await updateDoc(doc(db, "products", item.id), { wishlisted: !item.wishlisted });
+    }
+
+    // CHAT ACTIONS
+    document.getElementById("sendChatBtn").addEventListener("click", async () => {
+      if (!currentUser) { showModal("authModal"); return; }
+      const text = document.getElementById("chatInput").value.trim();
+      if (!text) return;
+
+      await addDoc(collection(db, "chats"), {
+        author: getUserName(),
+        pfp: getUserPfp(),
+        text: text,
+        timestamp: Date.now(),
+        inTrash: false
+      });
+
+      document.getElementById("chatInput").value = "";
+    });
+
+    document.getElementById("adminSaveChatBtn").addEventListener("click", async () => {
+      if (!isUserAdmin()) return;
+      const snap = await getDocs(collection(db, "chats"));
+      let msgs = [];
+      snap.forEach(d => { if (!d.data().inTrash) msgs.push(d.data()); });
+
+      await addDoc(collection(db, "savedChats"), {
+        savedAt: new Date().toLocaleString(),
+        messages: msgs
+      });
+      alert("Chat saved successfully to Saved Chats!");
+    });
+
+    document.getElementById("adminDeleteChatBtn").addEventListener("click", async () => {
+      if (!isUserAdmin()) return;
+      if (confirm("Move current chat messages to Trash?")) {
+        const snap = await getDocs(collection(db, "chats"));
+        snap.forEach(async (d) => {
+          await updateDoc(doc(db, "chats", d.id), { inTrash: true, deletedAt: Date.now() });
+        });
+      }
+    });
+
+    // TRASH & RECOVERY SYSTEM
+    function renderTrash() {
+      const trashGrid = document.getElementById("trashProductsGrid");
+      trashGrid.innerHTML = "";
+
+      if (trashProducts.length === 0) {
+        trashGrid.innerHTML = `<p style="color:#999; font-size:13px;">No deleted products in trash.</p>`;
+      } else {
+        trashProducts.forEach(item => {
+          const div = document.createElement("div");
+          div.className = "product-card";
+          div.innerHTML = `
+            <div class="img-wrapper"><img src="${item.imgUrl}" /></div>
+            <div class="card-info">
+              <div class="card-title">${item.title}</div>
+              <div style="display:flex; gap:6px; margin-top:8px;">
+                <button class="btn btn-outline btn-sm restore-prod-btn" style="flex:1;">Restore</button>
+                <button class="btn btn-danger btn-sm perm-del-prod-btn" style="flex:1;">Delete</button>
+              </div>
+            </div>
+          `;
+
+          div.querySelector(".restore-prod-btn").onclick = async () => {
+            await updateDoc(doc(db, "products", item.id), { inTrash: false });
+          };
+
+          div.querySelector(".perm-del-prod-btn").onclick = async () => {
+            if (confirm("Permanently delete this product?")) {
+              await deleteDoc(doc(db, "products", item.id));
+            }
+          };
+
+          trashGrid.appendChild(div);
+        });
+      }
+    }
+
+    async function autoPurgeTrash() {
+      if (!isUserAdmin()) return;
+      const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+      const now = Date.now();
+
+      const prodSnap = await getDocs(collection(db, "products"));
+      prodSnap.forEach(async (d) => {
+        const data = d.data();
+        if (data.inTrash && data.deletedAt && (now - data.deletedAt > thirtyDays)) {
+          await deleteDoc(doc(db, "products", d.id));
+        }
       });
     }
 
-    // MODAL TAB LOGIC (LINK VS FILE)
+    // PROFILE MANAGEMENT
+    document.getElementById("profilePfpInput").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          profilePfpBase64 = evt.target.result;
+          document.getElementById("profilePfpPreview").src = profilePfpBase64;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById("saveProfileBtn").addEventListener("click", async () => {
+      if (!currentUser) return;
+      const name = document.getElementById("profileNameInput").value.trim();
+      const updates = {};
+      if (name) updates.displayName = name;
+      if (profilePfpBase64) updates.photoURL = profilePfpBase64;
+
+      await updateProfile(currentUser, updates);
+      await setDoc(doc(db, "activeUsers", currentUser.uid), {
+        name: name || getUserName(),
+        pfp: profilePfpBase64 || getUserPfp(),
+        email: currentUser.email,
+        lastSeen: new Date().toISOString()
+      }, { merge: true });
+
+      alert("Profile updated successfully!");
+      updateHeaderUI();
+    });
+
+    document.getElementById("changePasswordBtn").addEventListener("click", async () => {
+      const newPwd = document.getElementById("newPasswordInput").value.trim();
+      if (!newPwd) return;
+      try {
+        await updatePassword(currentUser, newPwd);
+        alert("Password updated!");
+        document.getElementById("newPasswordInput").value = "";
+      } catch (err) { alert(err.message); }
+    });
+
+    document.getElementById("profileLogoutBtn").addEventListener("click", () => {
+      if (confirm("Are you sure you want to log out?")) {
+        signOut(auth);
+        showView("mainDashboardView");
+      }
+    });
+
+    // PRODUCT MODAL LOGIC
     document.getElementById("tabLinkBtn").addEventListener("click", () => {
       document.getElementById("tabLinkBtn").classList.add("active");
       document.getElementById("tabUploadBtn").classList.remove("active");
@@ -1027,7 +970,6 @@
       }
     });
 
-    // ADD / EDIT PRODUCT SAVE
     function openEditModal(item) {
       document.getElementById("editProductId").value = item.id;
       document.getElementById("productModalTitle").innerText = "Edit Shein Product";
@@ -1057,12 +999,8 @@
       }
 
       if (editId) {
-        // UPDATE EXISTING ITEM
-        await updateDoc(doc(db, "products", editId), {
-          url: url, title: title, price: price, imgUrl: imgUrl, sku: sku || "N/A"
-        });
+        await updateDoc(doc(db, "products", editId), { url, title, price, imgUrl, sku: sku || "N/A" });
       } else {
-        // ADD NEW ITEM
         await addDoc(collection(db, "products"), {
           url: url,
           title: title,
@@ -1072,6 +1010,7 @@
           addedBy: getUserName(),
           createdAt: Date.now(),
           wishlisted: false,
+          inTrash: false,
           visitedBy: [],
           notes: []
         });
@@ -1093,7 +1032,7 @@
       uploadedImageBase64 = "";
     }
 
-    // AUTH ACTIONS
+    // AUTH FORM
     document.getElementById("emailAuthSubmitBtn").addEventListener("click", async () => {
       const name = document.getElementById("authName").value.trim();
       const email = document.getElementById("authEmail").value.trim();
@@ -1110,9 +1049,7 @@
           const res = await createUserWithEmailAndPassword(auth, email, password);
           if (name) await updateProfile(res.user, { displayName: name });
           hideModal("authModal");
-        } catch (createErr) {
-          alert(createErr.message);
-        }
+        } catch (createErr) { alert(createErr.message); }
       }
     });
 
@@ -1124,42 +1061,44 @@
       } catch (error) { alert(error.message); }
     });
 
-    // NAVIGATION & MODALS UTILS
+    // NAVIGATION SYSTEM
+    function switchView(viewId) {
+      document.getElementById("mainDashboardView").style.display = "none";
+      document.querySelectorAll(".view-panel").forEach(el => el.style.display = "none");
+      document.getElementById(viewId).style.display = "block";
+    }
+
+    function showView(viewId) {
+      if (viewId === "mainDashboardView") {
+        document.querySelectorAll(".view-panel").forEach(el => el.style.display = "none");
+        document.getElementById("mainDashboardView").style.display = "block";
+      } else {
+        switchView(viewId);
+      }
+    }
+
+    document.getElementById("brandBtn").onclick = () => showView("mainDashboardView");
+    document.querySelectorAll(".backToHomeBtn").forEach(btn => btn.onclick = () => showView("mainDashboardView"));
+
+    document.getElementById("navWishlistBtn").onclick = () => showView("wishlistView");
+    document.getElementById("navChatBtn").onclick = () => showView("chatView");
+    document.getElementById("navSavedChatsBtn").onclick = () => showView("savedChatsView");
+    document.getElementById("navTrashBtn").onclick = () => showView("trashView");
+    
+    document.getElementById("navProfileBtn").onclick = () => {
+      if (!currentUser) return;
+      document.getElementById("profileNameInput").value = getUserName();
+      document.getElementById("profileEmailInput").value = currentUser.email;
+      document.getElementById("profilePfpPreview").src = getUserPfp();
+      showView("profileView");
+    };
+
     function showModal(id) { document.getElementById(id).style.display = "flex"; }
     function hideModal(id) { document.getElementById(id).style.display = "none"; }
 
-    document.getElementById("openAddModalBtn").addEventListener("click", () => {
-      resetProductModalInputs();
-      showModal("productModal");
-    });
-    document.getElementById("closeProductModal").addEventListener("click", () => hideModal("productModal"));
-
-    document.getElementById("closeAuthModal").addEventListener("click", () => hideModal("authModal"));
-
-    document.getElementById("openWishlistBtn").addEventListener("click", () => {
-      activeProduct = null;
-      document.getElementById("mainDashboardView").style.display = "none";
-      document.getElementById("detailView").style.display = "none";
-      document.getElementById("wishlistView").style.display = "block";
-    });
-
-    document.getElementById("wishlistBackBtn").addEventListener("click", () => {
-      document.getElementById("wishlistView").style.display = "none";
-      document.getElementById("mainDashboardView").style.display = "block";
-    });
-
-    document.getElementById("backToHomeBtn").addEventListener("click", () => {
-      activeProduct = null;
-      document.getElementById("detailView").style.display = "none";
-      document.getElementById("mainDashboardView").style.display = "block";
-    });
-
-    document.getElementById("brandBtn").addEventListener("click", () => {
-      activeProduct = null;
-      document.getElementById("detailView").style.display = "none";
-      document.getElementById("wishlistView").style.display = "none";
-      document.getElementById("mainDashboardView").style.display = "block";
-    });
+    document.getElementById("openAddModalBtn").onclick = () => { resetProductModalInputs(); showModal("productModal"); };
+    document.getElementById("closeProductModal").onclick = () => hideModal("productModal");
+    document.getElementById("closeAuthModal").onclick = () => hideModal("authModal");
   </script>
 </body>
 </html>
