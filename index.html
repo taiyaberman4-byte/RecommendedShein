@@ -23,7 +23,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
 
-    /* HEADER & TOP NAV BAR */
     header {
       background-color: #ffffff;
       border-bottom: 1px solid var(--border-color);
@@ -39,8 +38,57 @@
     }
 
     .brand-title { font-size: 20px; font-weight: 800; color: #000; cursor: pointer; letter-spacing: -0.5px; }
-    
-    .nav-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .nav-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .symbol-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #000;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .symbol-btn:hover { background: #f0f0f0; }
+
+    .symbol-btn::after {
+      content: attr(aria-label);
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #000;
+      color: #fff;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      transition-delay: 3s;
+      z-index: 300;
+    }
+    .symbol-btn:hover::after { opacity: 1; }
+
+    .unread-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
 
     .btn {
       padding: 7px 14px;
@@ -54,25 +102,16 @@
       align-items: center;
       gap: 6px;
     }
-
     .btn-primary { background-color: #000000; color: #ffffff; }
     .btn-primary:hover { background-color: #222222; }
-
     .btn-outline { background-color: transparent; border-color: #000000; color: #000000; }
     .btn-outline:hover { background-color: #f0f0f0; }
-
     .btn-danger { background-color: #dc2626; color: #ffffff; }
     .btn-danger:hover { background-color: #b91c1c; }
-
     .btn-sm { padding: 4px 10px; font-size: 12px; }
 
-    .user-avatar-small {
-      width: 24px; height: 24px; border-radius: 50%; object-fit: cover; background: #ddd;
-    }
-
-    /* CONTAINER & TOP BARS */
+    .user-avatar-small { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; background: #ddd; }
     .container { max-width: 1280px; margin: 0 auto; padding: 24px; width: 100%; flex: 1; }
-
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
 
     .live-users-bar {
@@ -86,17 +125,14 @@
       gap: 12px;
       font-size: 13px;
     }
-
     .live-dot { width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; }
     .users-list-tags { display: flex; gap: 8px; flex-wrap: wrap; }
     .user-chip { background: #f1f5f9; padding: 3px 8px; border-radius: 12px; font-size: 12px; color: #475569; display: flex; align-items: center; gap: 4px; }
 
-    /* SECTIONS & GRIDS */
     .section-title { font-size: 18px; font-weight: 700; margin: 24px 0 16px 0; display: flex; align-items: center; gap: 8px; }
     .recent-badge { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; }
 
     .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-
     .product-card {
       background: var(--card-bg);
       border-radius: 4px;
@@ -126,12 +162,9 @@
 
     .visited-banner { background: #f8fafc; border-top: 1px dashed var(--border-color); padding: 6px 10px; font-size: 11px; color: #64748b; display: flex; align-items: center; gap: 4px; }
 
-    /* VIEWS */
     .view-panel { display: none; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; max-width: 1000px; margin: 0 auto; }
-
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); cursor: pointer; font-size: 14px; margin-bottom: 20px; font-weight: 500; }
 
-    /* DETAIL VIEW */
     .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
     @media (max-width: 768px) { .detail-layout { grid-template-columns: 1fr; } }
     .detail-main-img { width: 100%; border-radius: 4px; aspect-ratio: 3/4; object-fit: cover; background: #eee; }
@@ -142,17 +175,70 @@
     .code-box { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
     .code-text { font-family: monospace; font-size: 15px; font-weight: 700; }
 
-    /* CHAT STYLING */
     .chat-box { height: 400px; border: 1px solid var(--border-color); border-radius: 6px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; background: #fdfdfd; }
     .chat-msg { display: flex; gap: 10px; align-items: flex-start; max-width: 80%; }
     .chat-msg-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; background: #ddd; }
     .chat-msg-content { background: #f1f5f9; padding: 8px 12px; border-radius: 8px; font-size: 13px; }
     .chat-msg-author { font-weight: 700; font-size: 11px; color: #475569; margin-bottom: 2px; }
 
-    /* PROFILE STYLING */
     .profile-avatar-preview { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; background: #eee; margin-bottom: 12px; border: 2px solid var(--border-color); }
 
-    /* MODALS */
+    .note-window {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .note-header { display: flex; justify-content: space-between; font-size: 11px; color: #64748b; margin-bottom: 6px; }
+    .note-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+
+    .rick-popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+    .rick-popup-card {
+      background: #0d1117;
+      border: 3px solid #22c55e;
+      box-shadow: 0 0 30px #22c55e;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      color: #fff;
+      max-width: 420px;
+      position: relative;
+      overflow: hidden;
+    }
+    .portal-ring {
+      width: 100px; height: 100px;
+      border: 5px dashed #4ade80;
+      border-radius: 50%;
+      margin: 0 auto 16px auto;
+      animation: spinPortal 3s linear infinite;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+    }
+    @keyframes spinPortal { 100% { transform: rotate(360deg); } }
+
+    .rick-morty-duo {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 16px 0;
+      animation: bounceDuo 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes bounceDuo {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+    .rm-avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #22c55e; object-fit: cover; }
+
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
     .modal-box { background: #ffffff; padding: 28px; border-radius: 8px; width: 100%; max-width: 480px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -165,30 +251,29 @@
     .tab-selector { display: flex; gap: 8px; margin-bottom: 12px; }
     .tab-btn { flex: 1; padding: 6px; font-size: 12px; border: 1px solid var(--border-color); background: #f8fafc; cursor: pointer; border-radius: 4px; text-align: center; font-weight: 600; }
     .tab-btn.active { background: #000; color: #fff; border-color: #000; }
-
     .google-btn { width: 100%; background: #ffffff; border: 1px solid var(--border-color); color: #333; padding: 10px; border-radius: 4px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
   </style>
 </head>
 <body>
 
-  <!-- HEADER NAV BAR -->
   <header>
     <div class="brand-title" id="brandBtn">RecommendedShein</div>
     <div class="nav-bar">
-      <button class="btn btn-outline" id="navWishlistBtn"><i class="fa-solid fa-heart"></i> Wishlist</button>
-      <button class="btn btn-outline" id="navChatBtn"><i class="fa-solid fa-comments"></i> Chat</button>
-      <button class="btn btn-outline" id="navSavedChatsBtn" style="display: none;"><i class="fa-solid fa-box-archive"></i> Saved Chats</button>
-      <button class="btn btn-outline" id="navTrashBtn" style="display: none;"><i class="fa-solid fa-trash-can"></i> Trash</button>
-      <button class="btn btn-outline" id="navProfileBtn" style="display: none;"><i class="fa-regular fa-circle-user"></i> Profile</button>
+      <button class="symbol-btn" id="navWishlistBtn" aria-label="Wishlist"><i class="fa-solid fa-heart"></i></button>
+      <button class="symbol-btn" id="navChatBtn" aria-label="Chat">
+        <i class="fa-solid fa-comments"></i>
+        <span class="unread-badge" id="chatUnreadBadge" style="display: none;">0</span>
+      </button>
+      <button class="symbol-btn" id="navSavedChatsBtn" aria-label="Saved Chats" style="display: none;"><i class="fa-solid fa-box-archive"></i></button>
+      <button class="symbol-btn" id="navTrashBtn" aria-label="Trash" style="display: none;"><i class="fa-solid fa-trash-can"></i></button>
+      <button class="symbol-btn" id="navProfileBtn" aria-label="Profile" style="display: none;"><i class="fa-solid fa-user"></i></button>
       <div id="headerAuthArea">
-        <button class="btn btn-primary" id="openAuthBtn">Sign In</button>
+        <button class="btn btn-primary btn-sm" id="openAuthBtn">Sign In</button>
       </div>
     </div>
   </header>
 
   <div class="container">
-    
-    <!-- ONLINE USERS -->
     <div class="live-users-bar">
       <div class="live-dot"></div>
       <strong>Online Users:</strong>
@@ -203,6 +288,9 @@
         <h2>Curated Recommendations</h2>
         <button class="btn btn-primary" id="openAddModalBtn" style="display: none;">+ Add Shein Item</button>
       </div>
+
+      <!-- HOMEPAGE NOTE NOTIFICATION BANNER -->
+      <div id="homepageNotesFeed" style="display: none; margin-bottom: 24px;"></div>
 
       <div id="recentSection" style="display: none;">
         <div class="section-title">
@@ -219,7 +307,7 @@
     <!-- WISHLIST VIEW -->
     <div class="view-panel" id="wishlistView">
       <div class="back-link backToHomeBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
-      <h2>Shared Wishlist</h2>
+      <h2>Wishlist</h2>
       <div style="background: #f8fafc; border: 1px solid var(--border-color); padding: 16px; border-radius: 6px; margin: 16px 0; display: flex; justify-content: space-between; align-items: center;">
         <div>Total Estimated Price for Wishlisted Items:</div>
         <div style="font-size: 20px; font-weight: 800; color: var(--accent-red);" id="wishlistTotalPrice">R0.00</div>
@@ -322,8 +410,8 @@
               <div style="font-size: 11px; color: #888;">SHEIN SKU / ITEM CODE</div>
               <div class="code-text" id="detailCode">SKU-000000</div>
             </div>
-            <button class="btn btn-outline btn-sm" id="copyCodeBtn">
-              <i class="fa-regular fa-copy"></i> <span id="copyBtnText">Copy Code</span>
+            <button class="symbol-btn" id="copyCodeBtn" aria-label="Copy Code" style="width:36px; height:36px;">
+              <i class="fa-regular fa-copy"></i>
             </button>
           </div>
 
@@ -336,23 +424,41 @@
             </a>
           </div>
 
-          <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
-            <button class="btn btn-outline btn-sm" id="detailEditBtn" style="display: none;"><i class="fa-solid fa-pen"></i> Edit Item</button>
-            <button class="btn btn-danger btn-sm" id="detailDeleteBtn" style="display: none;"><i class="fa-solid fa-trash"></i> Move to Trash (Admin)</button>
+          <div style="display: flex; gap: 8px; margin-top: 8px; align-items: center;">
+            <button class="symbol-btn" id="detailEditBtn" aria-label="Edit Item" style="display: none; width:36px;height:36px;">
+              <i class="fa-solid fa-pencil"></i>
+            </button>
+            <button class="symbol-btn" id="detailDeleteBtn" aria-label="Move to Trash" style="display: none; width:36px;height:36px; color:#dc2626; border-color:#dc2626;">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
           </div>
         </div>
       </div>
 
       <div style="margin-top: 32px; border-top: 1px solid var(--border-color); padding-top: 24px;">
         <h3>Notes & Comments</h3>
-        <div id="notesList" style="display: flex; flex-direction: column; gap: 10px; margin: 16px 0; max-height: 200px; overflow-y: auto;"></div>
+        <div id="notesList" style="display: flex; flex-direction: column; gap: 10px; margin: 16px 0; max-height: 250px; overflow-y: auto;"></div>
         <div style="display: flex; gap: 8px;">
-          <input type="text" id="noteInput" placeholder="Add a note..." style="flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px;" />
+          <input type="text" id="noteInput" placeholder="Add a new note..." style="flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px;" />
           <button class="btn btn-primary" id="saveNoteBtn">Post Note</button>
         </div>
       </div>
     </div>
 
+  </div>
+
+  <!-- RICK AND MORTY WISHLIST POPUP -->
+  <div class="rick-popup-overlay" id="rickPopupOverlay">
+    <div class="rick-popup-card">
+      <div class="portal-ring">🌀</div>
+      <h2 style="color: #4ade80; margin-bottom: 8px;">Added to Wishlist!</h2>
+      <p style="font-size: 13px; color: #aaa; margin-bottom: 16px;">Wubba lubba dub dub! Item secured in the multiverse.</p>
+      <div class="rick-morty-duo">
+        <img src="https://images.unsplash.com/photo-1563089145-599997674d42?w=100&auto=format&fit=crop&q=80" class="rm-avatar" alt="Rick" title="Rick Sanchez" />
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="rm-avatar" alt="Morty" title="Morty Smith" />
+      </div>
+      <button class="btn btn-primary" id="closeRickPopupBtn" style="margin-top: 16px; background: #22c55e; color: #000; font-weight: 700; width: 100%;">Awesome!</button>
+    </div>
   </div>
 
   <!-- AUTH MODAL -->
@@ -428,7 +534,6 @@
     </div>
   </div>
 
-  <!-- FIREBASE LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
@@ -449,7 +554,13 @@
       measurementId: "G-JQ1ZBD3QMJ"
     };
 
-    const ADMIN_EMAIL = "taiyaberman4@gmail.com";
+    // ==========================================
+    // ADMIN EMAILS LIST (Add more admin emails here)
+    // ==========================================
+    const ADMIN_EMAILS = [
+      "taiyaberman4@gmail.com",
+      "YOUR_SECOND_ADMIN_EMAIL_HERE@gmail.com",
+    ];
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -461,8 +572,9 @@
     let activeProduct = null;
     let uploadedImageBase64 = "";
     let profilePfpBase64 = "";
+    let lastSeenChatCount = 0;
+    let totalChatCount = 0;
 
-    // AUTH OBSERVER
     onAuthStateChanged(auth, async (user) => {
       currentUser = user;
       updateHeaderUI();
@@ -481,7 +593,7 @@
     });
 
     function isUserAdmin() {
-      return currentUser && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+      return currentUser && ADMIN_EMAILS.map(e => e.toLowerCase()).includes(currentUser.email.toLowerCase());
     }
 
     function getUserName() {
@@ -525,7 +637,7 @@
           adminDeleteChat.style.display = "none";
         }
       } else {
-        authArea.innerHTML = `<button class="btn btn-primary" id="openAuthBtn">Sign In</button>`;
+        authArea.innerHTML = `<button class="btn btn-primary btn-sm" id="openAuthBtn">Sign In</button>`;
         addModalBtn.style.display = "none";
         navProfile.style.display = "none";
         navSaved.style.display = "none";
@@ -534,7 +646,6 @@
       }
     }
 
-    // REALTIME ONLINE USERS
     onSnapshot(collection(db, "activeUsers"), (snapshot) => {
       const usersListEl = document.getElementById("usersList");
       usersListEl.innerHTML = "";
@@ -542,7 +653,7 @@
         const data = docSnap.data();
         const chip = document.createElement("span");
         chip.className = "user-chip";
-        const isAdminUser = data.email && data.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+        const isAdminUser = data.email && ADMIN_EMAILS.map(e => e.toLowerCase()).includes(data.email.toLowerCase());
         chip.innerHTML = `
           <img src="${data.pfp || 'https://via.placeholder.com/20'}" style="width:16px;height:16px;border-radius:50%;" />
           ${data.name || data.email} ${isAdminUser ? '<b>(Admin)</b>' : ''}
@@ -551,7 +662,6 @@
       });
     });
 
-    // REALTIME PRODUCTS
     onSnapshot(collection(db, "products"), (snapshot) => {
       productsList = [];
       trashProducts = [];
@@ -565,13 +675,13 @@
       });
       renderGrids();
       renderTrash();
+      renderHomepageNotesFeed();
       if (activeProduct) {
         const updated = productsList.find(p => p.id === activeProduct.id);
         if (updated) openDetailView(updated);
       }
     });
 
-    // REALTIME CHAT
     onSnapshot(collection(db, "chats"), (snapshot) => {
       const chatBox = document.getElementById("chatBox");
       chatBox.innerHTML = "";
@@ -581,6 +691,16 @@
         if (!d.inTrash) msgs.push({ id: docSnap.id, ...d });
       });
       msgs.sort((a, b) => a.timestamp - b.timestamp);
+
+      totalChatCount = msgs.length;
+      const unreadCount = Math.max(0, totalChatCount - lastSeenChatCount);
+      const badge = document.getElementById("chatUnreadBadge");
+      if (unreadCount > 0 && document.getElementById("chatView").style.display !== "block") {
+        badge.style.display = "inline-block";
+        badge.innerText = unreadCount;
+      } else {
+        badge.style.display = "none";
+      }
 
       msgs.forEach(m => {
         const div = document.createElement("div");
@@ -597,7 +717,6 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     });
 
-    // REALTIME SAVED CHATS
     onSnapshot(collection(db, "savedChats"), (snapshot) => {
       const container = document.getElementById("savedChatsList");
       container.innerHTML = "";
@@ -613,7 +732,78 @@
       });
     });
 
-    // RENDER PRODUCT GRIDS
+    function renderHomepageNotesFeed() {
+      const feed = document.getElementById("homepageNotesFeed");
+      feed.innerHTML = "";
+      let activeNotes = [];
+
+      productsList.forEach(prod => {
+        (prod.notes || []).forEach((note, idx) => {
+          if (!note.hiddenFromHomepage) {
+            activeNotes.push({ prodId: prod.id, prodTitle: prod.title, noteIdx: idx, ...note });
+          }
+        });
+      });
+
+      if (activeNotes.length === 0) {
+        feed.style.display = "none";
+        return;
+      }
+
+      feed.style.display = "block";
+      feed.innerHTML = `<h3>New Product Notes</h3>`;
+
+      activeNotes.forEach(n => {
+        const div = document.createElement("div");
+        div.className = "note-window";
+        const isViewed = n.viewedBy && currentUser && n.viewedBy.includes(currentUser.uid);
+        const adminRemoveBtn = isUserAdmin() 
+          ? `<button class="btn btn-danger btn-sm remove-home-note-btn"><i class="fa-solid fa-eye-slash"></i> Remove from Homepage (Admin)</button>`
+          : '';
+
+        div.innerHTML = `
+          <div class="note-header">
+            <strong>Note on: ${n.prodTitle} (by ${n.author})</strong>
+            <span>${n.date}</span>
+          </div>
+          <div style="font-size:13px;">${n.text}</div>
+          <div class="note-footer">
+            ${adminRemoveBtn}
+            <button class="btn btn-outline btn-sm viewed-note-btn" style="border-color:${isViewed ? '#22c55e' : '#ccc'}; color:${isViewed ? '#22c55e' : '#333'};">
+              <i class="fa-solid fa-check"></i> ${isViewed ? 'Viewed' : 'Mark as Viewed'}
+            </button>
+          </div>
+        `;
+
+        if (isUserAdmin()) {
+          div.querySelector(".remove-home-note-btn").onclick = async () => {
+            const prod = productsList.find(p => p.id === n.prodId);
+            if (prod) {
+              const updatedNotes = [...prod.notes];
+              updatedNotes[n.noteIdx].hiddenFromHomepage = true;
+              await updateDoc(doc(db, "products", n.prodId), { notes: updatedNotes });
+            }
+          };
+        }
+
+        div.querySelector(".viewed-note-btn").onclick = async () => {
+          if (!currentUser) { showModal("authModal"); return; }
+          const prod = productsList.find(p => p.id === n.prodId);
+          if (prod) {
+            const updatedNotes = [...prod.notes];
+            const viewedByList = updatedNotes[n.noteIdx].viewedBy || [];
+            if (!viewedByList.includes(currentUser.uid)) {
+              viewedByList.push(currentUser.uid);
+              updatedNotes[n.noteIdx].viewedBy = viewedByList;
+              await updateDoc(doc(db, "products", n.prodId), { notes: updatedNotes });
+            }
+          }
+        };
+
+        feed.appendChild(div);
+      });
+    }
+
     function renderGrids() {
       const now = Date.now();
       const twentyFourHours = 24 * 60 * 60 * 1000;
@@ -661,8 +851,8 @@
             <div class="card-price-row">
               <span class="card-price">${item.price}</span>
               <div class="card-actions">
-                ${currentUser ? `<button class="action-icon-btn edit-card-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>` : ''}
-                ${isUserAdmin() ? `<button class="action-icon-btn delete-card-btn" title="Move to Trash"><i class="fa-solid fa-trash"></i></button>` : ''}
+                ${currentUser ? `<button class="action-icon-btn edit-card-btn" title="Edit"><i class="fa-solid fa-pencil"></i></button>` : ''}
+                ${isUserAdmin() ? `<button class="action-icon-btn delete-card-btn" title="Move to Trash"><i class="fa-solid fa-trash-can"></i></button>` : ''}
                 <button class="action-icon-btn wishlist-btn ${item.wishlisted ? 'active' : ''}" title="Wishlist">
                   <i class="${item.wishlisted ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
                 </button>
@@ -747,8 +937,9 @@
 
       document.getElementById("copyCodeBtn").onclick = () => {
         navigator.clipboard.writeText(item.sku || "");
-        document.getElementById("copyBtnText").innerText = "Copied!";
-        setTimeout(() => { document.getElementById("copyBtnText").innerText = "Copy Code"; }, 2000);
+        const btn = document.getElementById("copyCodeBtn");
+        btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+        setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i>'; }, 2000);
       };
 
       document.getElementById("detailWishlistBtn").onclick = () => toggleWishlist(item);
@@ -759,13 +950,38 @@
       const notesList = document.getElementById("notesList");
       notesList.innerHTML = "";
       if (notes.length === 0) {
-        notesList.innerHTML = `<p style="color:#999; font-size:13px;">No notes yet.</p>`;
+        notesList.innerHTML = `<p style="color:#999; font-size:13px;">No new notes yet.</p>`;
         return;
       }
-      notes.forEach(n => {
+      notes.forEach((n, idx) => {
         const div = document.createElement("div");
-        div.style.cssText = "background:#f8fafc; padding:8px 12px; border-radius:6px; font-size:13px;";
-        div.innerHTML = `<div style="font-size:11px; color:#888;"><b>${n.author}</b> - ${n.date}</div><div>${n.text}</div>`;
+        div.className = "note-window";
+        const isViewed = n.viewedBy && currentUser && n.viewedBy.includes(currentUser.uid);
+
+        div.innerHTML = `
+          <div class="note-header">
+            <strong>Note from ${n.author}</strong>
+            <span>${n.date}</span>
+          </div>
+          <div style="font-size:13px;">${n.text}</div>
+          <div class="note-footer">
+            <button class="btn btn-outline btn-sm viewed-note-btn" style="border-color:${isViewed ? '#22c55e' : '#ccc'}; color:${isViewed ? '#22c55e' : '#333'};">
+              <i class="fa-solid fa-check"></i> ${isViewed ? 'Viewed' : 'Mark as Viewed'}
+            </button>
+          </div>
+        `;
+
+        div.querySelector(".viewed-note-btn").onclick = async () => {
+          if (!currentUser) { showModal("authModal"); return; }
+          const viewedByList = n.viewedBy || [];
+          if (!viewedByList.includes(currentUser.uid)) {
+            viewedByList.push(currentUser.uid);
+            const updatedNotes = [...activeProduct.notes];
+            updatedNotes[idx].viewedBy = viewedByList;
+            await updateDoc(doc(db, "products", activeProduct.id), { notes: updatedNotes });
+          }
+        };
+
         notesList.appendChild(div);
       });
     }
@@ -778,14 +994,15 @@
       const newNote = {
         author: getUserName(),
         text: text,
-        date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+        date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+        viewedBy: [],
+        hiddenFromHomepage: false
       };
 
       await updateDoc(doc(db, "products", activeProduct.id), { notes: arrayUnion(newNote) });
       document.getElementById("noteInput").value = "";
     });
 
-    // WISHLIST VIEW
     function renderWishlistGrid() {
       const wishlistGrid = document.getElementById("wishlistGrid");
       const wishlistedItems = productsList.filter(p => p.wishlisted);
@@ -803,10 +1020,18 @@
 
     async function toggleWishlist(item) {
       if (!currentUser) { showModal("authModal"); return; }
-      await updateDoc(doc(db, "products", item.id), { wishlisted: !item.wishlisted });
+      const willBeWishlisted = !item.wishlisted;
+      await updateDoc(doc(db, "products", item.id), { wishlisted: willBeWishlisted });
+
+      if (willBeWishlisted) {
+        document.getElementById("rickPopupOverlay").style.display = "flex";
+      }
     }
 
-    // CHAT ACTIONS
+    document.getElementById("closeRickPopupBtn").onclick = () => {
+      document.getElementById("rickPopupOverlay").style.display = "none";
+    };
+
     document.getElementById("sendChatBtn").addEventListener("click", async () => {
       if (!currentUser) { showModal("authModal"); return; }
       const text = document.getElementById("chatInput").value.trim();
@@ -846,7 +1071,6 @@
       }
     });
 
-    // TRASH & RECOVERY SYSTEM
     function renderTrash() {
       const trashGrid = document.getElementById("trashProductsGrid");
       trashGrid.innerHTML = "";
@@ -897,7 +1121,6 @@
       });
     }
 
-    // PROFILE MANAGEMENT
     document.getElementById("profilePfpInput").addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -946,7 +1169,6 @@
       }
     });
 
-    // PRODUCT MODAL LOGIC
     document.getElementById("tabLinkBtn").addEventListener("click", () => {
       document.getElementById("tabLinkBtn").classList.add("active");
       document.getElementById("tabUploadBtn").classList.remove("active");
@@ -1032,7 +1254,6 @@
       uploadedImageBase64 = "";
     }
 
-    // AUTH FORM
     document.getElementById("emailAuthSubmitBtn").addEventListener("click", async () => {
       const name = document.getElementById("authName").value.trim();
       const email = document.getElementById("authEmail").value.trim();
@@ -1061,11 +1282,15 @@
       } catch (error) { alert(error.message); }
     });
 
-    // NAVIGATION SYSTEM
     function switchView(viewId) {
       document.getElementById("mainDashboardView").style.display = "none";
       document.querySelectorAll(".view-panel").forEach(el => el.style.display = "none");
       document.getElementById(viewId).style.display = "block";
+
+      if (viewId === "chatView") {
+        lastSeenChatCount = totalChatCount;
+        document.getElementById("chatUnreadBadge").style.display = "none";
+      }
     }
 
     function showView(viewId) {
