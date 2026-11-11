@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RecommendedShein</title>
-  <!-- Google Fonts & FontAwesome Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
@@ -33,7 +32,6 @@
       flex-direction: column;
     }
 
-    /* --- HEADER --- */
     header {
       background-color: #ffffff;
       border-bottom: 1px solid var(--border-color);
@@ -89,6 +87,15 @@
       background-color: #f0f0f0;
     }
 
+    .btn-danger {
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .btn-danger:hover {
+      background-color: #b91c1c;
+    }
+
     .user-badge {
       display: flex;
       align-items: center;
@@ -107,7 +114,6 @@
       border-radius: 3px;
     }
 
-    /* --- LAYOUT --- */
     .container {
       max-width: 1280px;
       margin: 0 auto;
@@ -125,7 +131,6 @@
       gap: 16px;
     }
 
-    /* --- LIVE LOGGED IN USERS BAR --- */
     .live-users-bar {
       background-color: #ffffff;
       border: 1px solid var(--border-color);
@@ -160,7 +165,6 @@
       color: #475569;
     }
 
-    /* --- SHEIN HOME GRID --- */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -219,10 +223,16 @@
       color: var(--accent-red);
     }
 
-    .wishlist-btn {
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wishlist-btn, .delete-btn {
       background: none;
       border: none;
-      font-size: 18px;
+      font-size: 16px;
       color: #ccc;
       cursor: pointer;
       transition: color 0.2s ease;
@@ -232,7 +242,10 @@
       color: #ef4444;
     }
 
-    /* --- PRODUCT DETAIL VIEW --- */
+    .delete-btn:hover {
+      color: #dc2626;
+    }
+
     .detail-view {
       display: none;
       background: #ffffff;
@@ -326,7 +339,6 @@
       background: #f1f5f9;
     }
 
-    /* --- MODALS --- */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -404,7 +416,6 @@
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <div class="brand-title" id="brandBtn">RecommendedShein</div>
     <div class="header-actions" id="headerAuthArea">
@@ -412,10 +423,7 @@
     </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
   <div class="container">
-    
-    <!-- LIVE USERS SECTION -->
     <div class="live-users-bar">
       <div class="live-dot"></div>
       <strong>Online Users:</strong>
@@ -424,16 +432,13 @@
       </div>
     </div>
 
-    <!-- MAIN DASHBOARD TOOLBAR -->
     <div class="top-bar" id="topBar">
       <h2>Curated Recommendations</h2>
       <button class="btn btn-primary" id="openAddModalBtn" style="display: none;">+ Add Shein Item</button>
     </div>
 
-    <!-- HOME GRID VIEW -->
     <div class="product-grid" id="productGrid"></div>
 
-    <!-- SINGLE ITEM DETAIL VIEW -->
     <div class="detail-view" id="detailView">
       <div class="back-link" id="backToHomeBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
       <div class="detail-layout">
@@ -462,10 +467,17 @@
               Open on Shein <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px;"></i>
             </a>
           </div>
+          
+          <!-- Admin Delete Option in Detail View -->
+          <div id="adminDetailAction" style="margin-top: 16px; display: none;">
+            <button class="btn btn-danger" id="detailDeleteBtn" style="width: 100%;">
+              <i class="fa-solid fa-trash"></i> Delete Item (Admin)
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- AUTH MODAL -->
@@ -484,9 +496,7 @@
         <input type="password" id="authPassword" placeholder="••••••••" />
       </div>
       <button class="btn btn-primary" id="emailAuthSubmitBtn" style="width: 100%; margin-top: 8px;">Sign In / Sign Up</button>
-      
       <div style="text-align: center; margin: 12px 0; font-size: 12px; color: #aaa;">OR</div>
-
       <button class="google-btn" id="googleAuthBtn">
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" height="18" alt="Google" />
         Continue with Google
@@ -514,7 +524,7 @@
         <input type="text" id="addItemPrice" placeholder="R179" />
       </div>
       <div class="form-group">
-        <label>Image URL</label>
+        <label>Right Click Image -> Copy Image Address</label>
         <input type="url" id="addItemImgUrl" placeholder="https://..." />
       </div>
       <div class="form-group">
@@ -525,7 +535,6 @@
     </div>
   </div>
 
-  <!-- FIREBASE SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
@@ -541,7 +550,7 @@
       getFirestore, 
       collection, 
       addDoc, 
-      getDocs, 
+      deleteDoc,
       onSnapshot, 
       doc, 
       setDoc, 
@@ -550,7 +559,6 @@
       arrayRemove 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDGuKVpuH_0dMfxIiYuismnFI7KrC8CDAI",
       authDomain: "recommendedshein.firebaseapp.com",
@@ -561,42 +569,41 @@
       measurementId: "G-JQ1ZBD3QMJ"
     };
 
-    // Admin Email Constant
     const ADMIN_EMAIL = "taiyaberman4@gmail.com";
 
-    // Initialize Firebase Services
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Global State Variables
     let currentUser = null;
     let productsList = [];
 
-    // --- AUTHENTICATION LISTENERS & MANAGEMENT ---
     onAuthStateChanged(auth, async (user) => {
       currentUser = user;
       updateHeaderUI();
       if (user) {
-        // Track live online user in Firestore
         await setDoc(doc(db, "activeUsers", user.uid), {
           email: user.email,
           lastSeen: new Date().toISOString()
         });
       }
+      renderHomeGrid(productsList);
     });
+
+    function isUserAdmin() {
+      return currentUser && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+    }
 
     function updateHeaderUI() {
       const authArea = document.getElementById("headerAuthArea");
       const addModalBtn = document.getElementById("openAddModalBtn");
 
       if (currentUser) {
-        const isAdmin = currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
         authArea.innerHTML = `
           <div class="user-badge">
             <i class="fa-regular fa-user"></i>
             <span>${currentUser.email}</span>
-            ${isAdmin ? '<span class="admin-tag">Admin</span>' : ''}
+            ${isUserAdmin() ? '<span class="admin-tag">Admin</span>' : ''}
           </div>
           <button class="btn btn-outline" id="logoutBtn">Logout</button>
         `;
@@ -609,7 +616,6 @@
       }
     }
 
-    // --- REALTIME ONLINE USERS LISTENER ---
     onSnapshot(collection(db, "activeUsers"), (snapshot) => {
       const usersListEl = document.getElementById("usersList");
       usersListEl.innerHTML = "";
@@ -627,7 +633,6 @@
       });
     });
 
-    // --- PRODUCT MANAGEMENT & REALTIME SYNC ---
     onSnapshot(collection(db, "products"), (snapshot) => {
       productsList = [];
       snapshot.forEach(docSnap => {
@@ -649,6 +654,11 @@
         const isWishlisted = currentUser && item.wishlists && item.wishlists.includes(currentUser.uid);
         const card = document.createElement("div");
         card.className = "product-card";
+        
+        const deleteButtonHtml = isUserAdmin() 
+          ? `<button class="delete-btn" data-id="${item.id}" title="Delete Item"><i class="fa-solid fa-trash"></i></button>` 
+          : '';
+
         card.innerHTML = `
           <div class="img-wrapper">
             <img src="${item.imgUrl || 'https://via.placeholder.com/300x400'}" alt="${item.title}" />
@@ -657,30 +667,39 @@
             <div class="card-title">${item.title}</div>
             <div class="card-price-row">
               <span class="card-price">${item.price}</span>
-              <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" data-id="${item.id}">
-                <i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
-              </button>
+              <div class="card-actions">
+                ${deleteButtonHtml}
+                <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" data-id="${item.id}">
+                  <i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                </button>
+              </div>
             </div>
           </div>
         `;
 
-        // Card Click Handler (Open Details)
         card.addEventListener("click", (e) => {
-          if (e.target.closest(".wishlist-btn")) return; // prevent open when heart is clicked
+          if (e.target.closest(".wishlist-btn") || e.target.closest(".delete-btn")) return;
           openDetailView(item);
         });
 
-        // Wishlist Click Handler
         card.querySelector(".wishlist-btn").addEventListener("click", (e) => {
           e.stopPropagation();
           toggleWishlist(item.id, item.wishlists || []);
         });
 
+        if (isUserAdmin()) {
+          card.querySelector(".delete-btn").addEventListener("click", async (e) => {
+            e.stopPropagation();
+            if (confirm("Are you sure you want to delete this item?")) {
+              await deleteDoc(doc(db, "products", item.id));
+            }
+          });
+        }
+
         grid.appendChild(card);
       });
     }
 
-    // --- DETAIL VIEW LOGIC ---
     function openDetailView(item) {
       document.getElementById("topBar").style.display = "none";
       document.getElementById("productGrid").style.display = "none";
@@ -696,7 +715,19 @@
       const wishlistIcon = document.getElementById("detailWishlistIcon");
       wishlistIcon.className = isWishlisted ? "fa-solid fa-heart" : "fa-regular fa-heart";
 
-      // Detail Copy Button
+      const adminDetailContainer = document.getElementById("adminDetailAction");
+      if (isUserAdmin()) {
+        adminDetailContainer.style.display = "block";
+        document.getElementById("detailDeleteBtn").onclick = async () => {
+          if (confirm("Are you sure you want to delete this item?")) {
+            await deleteDoc(doc(db, "products", item.id));
+            document.getElementById("backToHomeBtn").click();
+          }
+        };
+      } else {
+        adminDetailContainer.style.display = "none";
+      }
+
       document.getElementById("copyCodeBtn").onclick = () => {
         navigator.clipboard.writeText(item.sku || "");
         document.getElementById("copyBtnText").innerText = "Copied!";
@@ -705,7 +736,6 @@
         }, 2000);
       };
 
-      // Detail Wishlist Button
       document.getElementById("detailWishlistBtn").onclick = () => {
         toggleWishlist(item.id, item.wishlists || []);
       };
@@ -723,7 +753,6 @@
       document.getElementById("productGrid").style.display = "grid";
     });
 
-    // --- WISHLIST TOGGLE ---
     async function toggleWishlist(productId, currentWishlists) {
       if (!currentUser) {
         showModal("authModal");
@@ -739,7 +768,6 @@
       }
     }
 
-    // --- ADD PRODUCT LOGIC ---
     document.getElementById("saveProductBtn").addEventListener("click", async () => {
       const url = document.getElementById("addItemUrl").value.trim();
       const title = document.getElementById("addItemTitle").value.trim();
@@ -763,7 +791,6 @@
       });
 
       hideModal("addModal");
-      // Clear Inputs
       document.getElementById("addItemUrl").value = "";
       document.getElementById("addItemTitle").value = "";
       document.getElementById("addItemPrice").value = "";
@@ -771,7 +798,6 @@
       document.getElementById("addItemSku").value = "";
     });
 
-    // --- AUTHENTICATION LOGIC ---
     document.getElementById("googleAuthBtn").addEventListener("click", async () => {
       const provider = new GoogleAuthProvider();
       try {
@@ -795,7 +821,6 @@
         await signInWithEmailAndPassword(auth, email, password);
         hideModal("authModal");
       } catch (err) {
-        // Fallback to Create User if account doesn't exist yet
         try {
           await createUserWithEmailAndPassword(auth, email, password);
           hideModal("authModal");
@@ -805,7 +830,6 @@
       }
     });
 
-    // --- MODAL UTILITIES ---
     function showModal(id) { document.getElementById(id).style.display = "flex"; }
     function hideModal(id) { document.getElementById(id).style.display = "none"; }
 
