@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecommendedShein</title>
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg-color: #f7f7f7;
+      --card-bg: #ffffff;
+      --text-main: #000000;
+      --text-muted: #666666;
+      --accent-red: #fa6338;
+      --border-color: #e5e5e5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --- HEADER --- */
+    header {
+      background-color: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #000000;
+      letter-spacing: -0.5px;
+      cursor: pointer;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #222222;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border-color: #000000;
+      color: #000000;
+    }
+
+    .btn-outline:hover {
+      background-color: #f0f0f0;
+    }
+
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .admin-tag {
+      background-color: #000000;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    /* --- LAYOUT --- */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+      width: 100%;
+      flex: 1;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* --- LIVE LOGGED IN USERS BAR --- */
+    .live-users-bar {
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    .users-list-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .user-chip {
+      background: #f1f5f9;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: #475569;
+    }
+
+    /* --- SHEIN HOME GRID --- */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .img-wrapper {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background-color: #eee;
+      position: relative;
+    }
+
+    .img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-info {
+      padding: 10px 8px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 6px;
+    }
+
+    .card-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-price {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-red);
+    }
+
+    .wishlist-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .wishlist-btn.active {
+      color: #ef4444;
+    }
+
+    /* --- PRODUCT DETAIL VIEW --- */
+    .detail-view {
+      display: none;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 14px;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .detail-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .detail-main-img {
+      width: 100%;
+      border-radius: 4px;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      background: #eee;
+    }
+
+    .detail-info {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .detail-title {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .detail-price {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent-red);
+    }
+
+    .code-box {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .code-text {
+      font-family: monospace;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .copy-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-btn:hover {
+      background: #f1f5f9;
+    }
+
+    /* --- MODALS --- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      padding: 28px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #888;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-muted);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .google-btn {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      color: #333;
+      padding: 10px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand-title" id="brandBtn">RecommendedShein</div>
+    <div class="header-actions" id="headerAuthArea">
+      <button class="btn btn-outline" id="openAuthBtn">Sign In / Sign Up</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+    
+    <!-- LIVE USERS SECTION -->
+    <div class="live-users-bar">
+      <div class="live-dot"></div>
+      <strong>Online Users:</strong>
+      <div class="users-list-tags" id="usersList">
+        <span class="user-chip">Guest Visitor</span>
+      </div>
+    </div>
+
+    <!-- MAIN DASHBOARD TOOLBAR -->
+    <div class="top-bar" id="topBar">
+      <h2>Curated Recommendations</h2>
+      <button class="btn btn-primary" id="openAddModalBtn" style="display: none;">+ Add Shein Item</button>
+    </div>
+
+    <!-- HOME GRID VIEW -->
+    <div class="product-grid" id="productGrid"></div>
+
+    <!-- SINGLE ITEM DETAIL VIEW -->
+    <div class="detail-view" id="detailView">
+      <div class="back-link" id="backToHomeBtn"><i class="fa-solid fa-arrow-left"></i> Back to Products</div>
+      <div class="detail-layout">
+        <div>
+          <img id="detailImg" class="detail-main-img" src="" alt="Product" />
+        </div>
+        <div class="detail-info">
+          <h1 class="detail-title" id="detailTitle">Product Title</h1>
+          <div class="detail-price" id="detailPrice">R0.00</div>
+          
+          <div class="code-box">
+            <div>
+              <div style="font-size: 11px; color: #888;">SHEIN SKU / ITEM CODE</div>
+              <div class="code-text" id="detailCode">SKU-000000</div>
+            </div>
+            <button class="copy-btn" id="copyCodeBtn">
+              <i class="fa-regular fa-copy"></i> <span id="copyBtnText">Copy</span>
+            </button>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-top: 10px;">
+            <button class="btn btn-outline" id="detailWishlistBtn" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <i class="fa-regular fa-heart" id="detailWishlistIcon"></i> Wishlist
+            </button>
+            <a id="detailExternalLink" href="#" target="_blank" class="btn btn-primary" style="flex: 1; text-align: center; text-decoration: none;">
+              Open on Shein <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- AUTH MODAL -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="authTitle">Sign In</h3>
+        <button class="close-btn" id="closeAuthModal">×</button>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="authEmail" placeholder="name@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="authPassword" placeholder="••••••••" />
+      </div>
+      <button class="btn btn-primary" id="emailAuthSubmitBtn" style="width: 100%; margin-top: 8px;">Sign In / Sign Up</button>
+      
+      <div style="text-align: center; margin: 12px 0; font-size: 12px; color: #aaa;">OR</div>
+
+      <button class="google-btn" id="googleAuthBtn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" height="18" alt="Google" />
+        Continue with Google
+      </button>
+    </div>
+  </div>
+
+  <!-- ADD ITEM MODAL -->
+  <div class="modal-overlay" id="addModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Add Shein Product</h3>
+        <button class="close-btn" id="closeAddModal">×</button>
+      </div>
+      <div class="form-group">
+        <label>Shein Product Page URL</label>
+        <input type="url" id="addItemUrl" placeholder="https://za.shein.com/..." />
+      </div>
+      <div class="form-group">
+        <label>Item Name / Title</label>
+        <input type="text" id="addItemTitle" placeholder="e.g. High Waist Wide Leg Sweatpants" />
+      </div>
+      <div class="form-group">
+        <label>Price (e.g. R179)</label>
+        <input type="text" id="addItemPrice" placeholder="R179" />
+      </div>
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="url" id="addItemImgUrl" placeholder="https://..." />
+      </div>
+      <div class="form-group">
+        <label>Shein Code / SKU</label>
+        <input type="text" id="addItemSku" placeholder="e.g. sz2411168808462318" />
+      </div>
+      <button class="btn btn-primary" id="saveProductBtn" style="width: 100%; margin-top: 8px;">Save Recommendation</button>
+    </div>
+  </div>
+
+  <!-- FIREBASE SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithPopup, 
+      GoogleAuthProvider, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      signOut, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      getDocs, 
+      onSnapshot, 
+      doc, 
+      setDoc, 
+      updateDoc, 
+      arrayUnion, 
+      arrayRemove 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDGuKVpuH_0dMfxIiYuismnFI7KrC8CDAI",
+      authDomain: "recommendedshein.firebaseapp.com",
+      projectId: "recommendedshein",
+      storageBucket: "recommendedshein.firebasestorage.app",
+      messagingSenderId: "952358980039",
+      appId: "1:952358980039:web:0ec79382b395df874971e2",
+      measurementId: "G-JQ1ZBD3QMJ"
+    };
+
+    // Admin Email Constant
+    const ADMIN_EMAIL = "taiyaberman4@gmail.com";
+
+    // Initialize Firebase Services
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Global State Variables
+    let currentUser = null;
+    let productsList = [];
+
+    // --- AUTHENTICATION LISTENERS & MANAGEMENT ---
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user;
+      updateHeaderUI();
+      if (user) {
+        // Track live online user in Firestore
+        await setDoc(doc(db, "activeUsers", user.uid), {
+          email: user.email,
+          lastSeen: new Date().toISOString()
+        });
+      }
+    });
+
+    function updateHeaderUI() {
+      const authArea = document.getElementById("headerAuthArea");
+      const addModalBtn = document.getElementById("openAddModalBtn");
+
+      if (currentUser) {
+        const isAdmin = currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+        authArea.innerHTML = `
+          <div class="user-badge">
+            <i class="fa-regular fa-user"></i>
+            <span>${currentUser.email}</span>
+            ${isAdmin ? '<span class="admin-tag">Admin</span>' : ''}
+          </div>
+          <button class="btn btn-outline" id="logoutBtn">Logout</button>
+        `;
+        addModalBtn.style.display = "block";
+        document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
+      } else {
+        authArea.innerHTML = `<button class="btn btn-outline" id="openAuthBtn">Sign In / Sign Up</button>`;
+        addModalBtn.style.display = "none";
+        document.getElementById("openAuthBtn").addEventListener("click", () => showModal("authModal"));
+      }
+    }
+
+    // --- REALTIME ONLINE USERS LISTENER ---
+    onSnapshot(collection(db, "activeUsers"), (snapshot) => {
+      const usersListEl = document.getElementById("usersList");
+      usersListEl.innerHTML = "";
+      if (snapshot.empty) {
+        usersListEl.innerHTML = `<span class="user-chip">No online users</span>`;
+        return;
+      }
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const chip = document.createElement("span");
+        chip.className = "user-chip";
+        const isAdminUser = data.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+        chip.innerHTML = `${data.email} ${isAdminUser ? '<b>(Admin)</b>' : ''}`;
+        usersListEl.appendChild(chip);
+      });
+    });
+
+    // --- PRODUCT MANAGEMENT & REALTIME SYNC ---
+    onSnapshot(collection(db, "products"), (snapshot) => {
+      productsList = [];
+      snapshot.forEach(docSnap => {
+        productsList.push({ id: docSnap.id, ...docSnap.data() });
+      });
+      renderHomeGrid(productsList);
+    });
+
+    function renderHomeGrid(products) {
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = "";
+
+      if (products.length === 0) {
+        grid.innerHTML = `<p style="grid-column: 1/-1; color: var(--text-muted);">No products added yet. Log in to add recommendations!</p>`;
+        return;
+      }
+
+      products.forEach(item => {
+        const isWishlisted = currentUser && item.wishlists && item.wishlists.includes(currentUser.uid);
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <div class="img-wrapper">
+            <img src="${item.imgUrl || 'https://via.placeholder.com/300x400'}" alt="${item.title}" />
+          </div>
+          <div class="card-info">
+            <div class="card-title">${item.title}</div>
+            <div class="card-price-row">
+              <span class="card-price">${item.price}</span>
+              <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" data-id="${item.id}">
+                <i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        `;
+
+        // Card Click Handler (Open Details)
+        card.addEventListener("click", (e) => {
+          if (e.target.closest(".wishlist-btn")) return; // prevent open when heart is clicked
+          openDetailView(item);
+        });
+
+        // Wishlist Click Handler
+        card.querySelector(".wishlist-btn").addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleWishlist(item.id, item.wishlists || []);
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    // --- DETAIL VIEW LOGIC ---
+    function openDetailView(item) {
+      document.getElementById("topBar").style.display = "none";
+      document.getElementById("productGrid").style.display = "none";
+      document.getElementById("detailView").style.display = "block";
+
+      document.getElementById("detailImg").src = item.imgUrl;
+      document.getElementById("detailTitle").innerText = item.title;
+      document.getElementById("detailPrice").innerText = item.price;
+      document.getElementById("detailCode").innerText = item.sku || "N/A";
+      document.getElementById("detailExternalLink").href = item.url || "#";
+
+      const isWishlisted = currentUser && item.wishlists && item.wishlists.includes(currentUser.uid);
+      const wishlistIcon = document.getElementById("detailWishlistIcon");
+      wishlistIcon.className = isWishlisted ? "fa-solid fa-heart" : "fa-regular fa-heart";
+
+      // Detail Copy Button
+      document.getElementById("copyCodeBtn").onclick = () => {
+        navigator.clipboard.writeText(item.sku || "");
+        document.getElementById("copyBtnText").innerText = "Copied!";
+        setTimeout(() => {
+          document.getElementById("copyBtnText").innerText = "Copy";
+        }, 2000);
+      };
+
+      // Detail Wishlist Button
+      document.getElementById("detailWishlistBtn").onclick = () => {
+        toggleWishlist(item.id, item.wishlists || []);
+      };
+    }
+
+    document.getElementById("backToHomeBtn").addEventListener("click", () => {
+      document.getElementById("detailView").style.display = "none";
+      document.getElementById("topBar").style.display = "flex";
+      document.getElementById("productGrid").style.display = "grid";
+    });
+
+    document.getElementById("brandBtn").addEventListener("click", () => {
+      document.getElementById("detailView").style.display = "none";
+      document.getElementById("topBar").style.display = "flex";
+      document.getElementById("productGrid").style.display = "grid";
+    });
+
+    // --- WISHLIST TOGGLE ---
+    async function toggleWishlist(productId, currentWishlists) {
+      if (!currentUser) {
+        showModal("authModal");
+        return;
+      }
+      const prodRef = doc(db, "products", productId);
+      const userHasWishlisted = currentWishlists.includes(currentUser.uid);
+
+      if (userHasWishlisted) {
+        await updateDoc(prodRef, { wishlists: arrayRemove(currentUser.uid) });
+      } else {
+        await updateDoc(prodRef, { wishlists: arrayUnion(currentUser.uid) });
+      }
+    }
+
+    // --- ADD PRODUCT LOGIC ---
+    document.getElementById("saveProductBtn").addEventListener("click", async () => {
+      const url = document.getElementById("addItemUrl").value.trim();
+      const title = document.getElementById("addItemTitle").value.trim();
+      const price = document.getElementById("addItemPrice").value.trim();
+      const imgUrl = document.getElementById("addItemImgUrl").value.trim();
+      const sku = document.getElementById("addItemSku").value.trim();
+
+      if (!title || !price || !imgUrl) {
+        alert("Please fill in the title, price, and image URL.");
+        return;
+      }
+
+      await addDoc(collection(db, "products"), {
+        url: url,
+        title: title,
+        price: price,
+        imgUrl: imgUrl,
+        sku: sku || "N/A",
+        addedBy: currentUser ? currentUser.email : "Anonymous",
+        wishlists: []
+      });
+
+      hideModal("addModal");
+      // Clear Inputs
+      document.getElementById("addItemUrl").value = "";
+      document.getElementById("addItemTitle").value = "";
+      document.getElementById("addItemPrice").value = "";
+      document.getElementById("addItemImgUrl").value = "";
+      document.getElementById("addItemSku").value = "";
+    });
+
+    // --- AUTHENTICATION LOGIC ---
+    document.getElementById("googleAuthBtn").addEventListener("click", async () => {
+      const provider = new GoogleAuthProvider();
+      try {
+        await signInWithPopup(auth, provider);
+        hideModal("authModal");
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    document.getElementById("emailAuthSubmitBtn").addEventListener("click", async () => {
+      const email = document.getElementById("authEmail").value.trim();
+      const password = document.getElementById("authPassword").value.trim();
+
+      if (!email || !password) {
+        alert("Please provide both email and password.");
+        return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        hideModal("authModal");
+      } catch (err) {
+        // Fallback to Create User if account doesn't exist yet
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          hideModal("authModal");
+        } catch (createErr) {
+          alert(createErr.message);
+        }
+      }
+    });
+
+    // --- MODAL UTILITIES ---
+    function showModal(id) { document.getElementById(id).style.display = "flex"; }
+    function hideModal(id) { document.getElementById(id).style.display = "none"; }
+
+    document.getElementById("openAuthBtn")?.addEventListener("click", () => showModal("authModal"));
+    document.getElementById("closeAuthModal").addEventListener("click", () => hideModal("authModal"));
+    document.getElementById("openAddModalBtn").addEventListener("click", () => showModal("addModal"));
+    document.getElementById("closeAddModal").addEventListener("click", () => hideModal("addModal"));
+  </script>
+</body>
+</html>
